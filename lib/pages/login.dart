@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'dart:io';
+import 'package:wallet/models/config.dart';
 
 import 'package:flutter/material.dart';
 import 'package:wallet/pages/home.dart';
@@ -8,12 +10,18 @@ import 'package:wallet/colors.dart';
 
 import 'package:http/http.dart' as http;
 
-class Login extends StatelessWidget {
+class Login extends StatefulWidget {
 
-  TextEditingController accountEmail = new TextEditingController()..text = "eddie@email.mails";
-  TextEditingController accountPassword = new TextEditingController()..text = "password";
-  // TextEditingController accountPassword = new TextEditingController();
+  @override
+  _LoginState createState() => _LoginState();
+}
 
+class _LoginState extends State<Login> {
+  TextEditingController accountEmail = new TextEditingController();
+
+  TextEditingController accountPassword = new TextEditingController();
+
+  bool load = false;
 
   @override
   Widget build(BuildContext context) {
@@ -69,26 +77,28 @@ class Login extends StatelessWidget {
                           ],
                         ),
                       ),
-                      
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: InkWell(
                           child: CircleAvatar(
-                            child: Icon(Icons.arrow_forward_ios),
+                            radius: 30,
+                            // backgroundColor: Colors.black12,
+                            child: Center(child: load ? CircularProgressIndicator(backgroundColor: Colors.white,) : Icon(Icons.arrow_forward_ios)),
                           ),
-                          onTap: ()async {
-                            
-                            
-                            String basicAuth = 'Basic '+base64Encode(utf8.encode('${accountEmail.text}:${accountPassword.text}'));
-                            http.Response r = await http.get("http://192.168.8.73:2011/accounts/login",headers: <String, String>{'authorization': basicAuth});
-
-                            print(r.statusCode);
-
-                            if (r.statusCode == 200){
-                              Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => Home()));
-                            }else{
-                              print("Fatal error");
-                              showDialog(
+                          onTap: ()async {    
+                            load = !load;
+                            setState(() {
+                              
+                            });
+                            try {
+                              String basicAuth = 'Basic '+base64Encode(utf8.encode('${accountEmail.text}:${accountPassword.text}'));
+                              http.Response r = await http.get("http://$ip/accounts/login",headers: <String, String>{'authorization': basicAuth});
+                              print(r.statusCode);
+                              print(r.body);
+                              if (r.statusCode == 200){
+                                Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => Home()));
+                              } else if(r.statusCode == 401){
+                                showDialog(
                                   context: context,
                                   builder: (BuildContext context) {
                                     return AlertDialog(
@@ -105,8 +115,33 @@ class Login extends StatelessWidget {
                                     );
                                   },
                                 );
+                              } else{
+                                print ("Another error");
+                              }
+                              
+                            } catch (e) {
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: Text("Connection erroe"),
+                                      content: Text("Check your internet connection"),
+                                      actions: <Widget>[
+                                        FlatButton(
+                                          child: Text("Close"),
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                        )
+                                      ],
+                                    );
+                                  },
+                                );
                             }
-                            
+                            load = false;
+                            setState(() {
+                              
+                            });                           
                           },
                         ),
                       )
@@ -114,11 +149,16 @@ class Login extends StatelessWidget {
                     
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 120, top: 20),
-                  child: Text("Forgot password?", style: TextStyle(fontSize: 20),),
+                InkWell(
+                  onTap: (){
+                    print("this is it");
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 120, top: 20),
+                    child: Text("Forgot password?", style: TextStyle(fontSize: 20),),
+                  ),
                 ),
-                RaisedButton(
+                FlatButton(
                   onPressed: () {
                     Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=> Register()));
                   },

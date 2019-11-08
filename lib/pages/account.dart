@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:wallet/colors.dart';
 import 'package:wallet/pages/login.dart';
 import 'package:wallet/widgets/circle.dart';
 
-class Account extends StatelessWidget {
+class Account extends StatefulWidget {
+  @override
+  _AccountState createState() => _AccountState();
+}
+
+
+class _AccountState extends State<Account> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.deepPurple,
-      // appBar: AppBar(
-      //   backgroundColor: Colors.transparent,
-      //   elevation: 0.0,
-      //   centerTitle: true,
-      //   title: Text("data"),
-      // ),
+      backgroundColor: mainColor,
       body: Stack(
         children: <Widget>[
           new Background(),
@@ -42,15 +43,43 @@ class Account extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 8.0),
-                      child: IconButton(
-                        onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => Login()));
-                        },
-                        icon: Icon(Icons.exit_to_app, size: 40,),
+                    FlatButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (BuildContext context) => Login()));
+                      },
+                      child: Row(
+                        children: <Widget>[
+                          Transform.rotate(
+                              angle: 3.14159, child: Icon(Icons.exit_to_app, color: subColor,)),
+                          Text("Logout", style: TextStyle(color: mainColor),)
+                        ],
                       ),
-                    )
+                    ),
+                    // Padding(
+                    //   padding: const EdgeInsets.only(right: 0.0),
+                    //   child: IconButton(
+                    //     onPressed: () {
+                    //       Navigator.push(
+                    //           context,
+                    //           MaterialPageRoute(
+                    //               builder: (BuildContext context) => Login()));
+                    //     },
+                    //     icon: Transform.rotate(
+                    //         angle: 3.14159,
+                    //         child: Icon(
+                    //           Icons.exit_to_app,
+                    //           size: 40,
+                    //           color: subColor,
+                    //         )),
+                    //   ),
+                    // ),
+                    // Padding(
+                    //   padding: const EdgeInsets.all(8.0),
+                    //   child: Text("Logout", style: TextStyle(fontSize: 20),),
+                    // )
                   ],
                 ),
               ),
@@ -59,35 +88,21 @@ class Account extends StatelessWidget {
               ),
               Row(
                 children: <Widget>[
-                  // Container(
-                  //   height: 100,
-                  //   width: 100,
-                  //   decoration: BoxDecoration(
-                  //     color: Colors.red,
-                  //     shape: BoxShape.circle,
-                  //     image: DecorationImage(image: AssetImage("asset/richard.png"))
-                  //   ),
-                  // ),
                   Padding(
                       padding: const EdgeInsets.only(left: 40),
                       child: ClipOval(
                         // clipper: BarClipper(),
                         child: Container(
-                          color: Colors.green,
+                          color: Colors.white24,
                           height: 100,
                           width: 100,
-                          child: Image.asset(
-                            "assets/richard.png",
-                            height: 50,
-                            width: 50,
+                          child: Image.network(
+                            // "assets/richard.png",
+                            "https://ca.hellomagazine.com/images/stories/0/2018/01/09/000/535/567/featured_5_3.jpg",
+                            height: 40,
+                            width: 40,
                             fit: BoxFit.cover,
                           ),
-                          // child: Image.network(
-                          //   "https://ca.hellomagazine.com/images/stories/0/2018/01/09/000/535/567/featured_5_3.jpg",
-                          //   height: 50,
-                          //   width: 50,
-                          //   fit: BoxFit.cover,
-                          // ),
                         ),
                       )),
                   Expanded(
@@ -100,16 +115,38 @@ class Account extends StatelessWidget {
                           "Username",
                           style: TextStyle(
                             fontSize: 25,
+                            color: Colors.white
                           ),
-                        ),
-                        Text(
-                          "myemail@email.com",
-                          style: TextStyle(),
                         ),
                       ],
                     ),
                   ))
                 ],
+              ),
+              Padding(
+                padding: EdgeInsets.all(8),
+                child: Column(
+                  children: <Widget>[
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Text(
+                      "Email: myemail@email.com",
+                      style: TextStyle(
+                        fontSize: 17,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      "Phone: 0715232942",
+                      style: TextStyle(
+                        fontSize: 17,
+                      ),
+                    ),
+                  ],
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.all(20.0),
@@ -145,6 +182,40 @@ class Account extends StatelessWidget {
                     ),
                   ],
                 ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text("Account Details", style: TextStyle(fontSize: 20, color: Colors.white, decoration: TextDecoration.underline),),
+              ),
+              
+              Container(
+                width: MediaQuery.of(context).size.width,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text("Wallet Number: 12345678900",style: TextStyle(fontSize: 18, color: Colors.white70),),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        children: <Widget>[
+                          Text("Wallet Balance: ",style: TextStyle(fontSize: 17, color: Colors.white70),),
+                          InkWell(
+                            child: showBalance ? Text("12345.00 ksh",style: TextStyle(fontSize: 20, color: Colors.white),): Text("See Balance",style: TextStyle(fontSize: 20),),
+                            onTap: (){
+                              showBalance = ! showBalance;
+                              setState(() {
+                                
+                              });
+                            },
+                            ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
               )
             ],
           ),
@@ -152,6 +223,8 @@ class Account extends StatelessWidget {
       ),
     );
   }
+
+  bool showBalance = false;
 }
 
 class Background extends StatelessWidget {
@@ -162,7 +235,7 @@ class Background extends StatelessWidget {
         clipper: BarClipper(),
         child: Container(
           height: MediaQuery.of(context).size.height * 0.26,
-          color: Colors.pink,
+          color: lightColor,
         ),
       ),
     );

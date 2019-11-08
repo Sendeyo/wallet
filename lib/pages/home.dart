@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:wallet/colors.dart';
 import 'package:wallet/pages/account.dart';
+import 'package:wallet/pages/mpesaSend.dart';
 import 'package:wallet/widgets/circle.dart';
 
 class Home extends StatelessWidget {
@@ -17,7 +18,7 @@ class Home extends StatelessWidget {
         children: <Widget>[
           Container(
             height: 500,
-            color: subColor,
+            color: mainColor,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
@@ -26,7 +27,7 @@ class Home extends StatelessWidget {
                   child: Container(
                     height: MediaQuery.of(context).size.height * 0.4,
                     width: MediaQuery.of(context).size.width,
-                    color: Colors.white70,
+                    color: lightColor,
                     child: Padding(
                       padding: const EdgeInsets.only(top: 30, left: 30),
                       child: Align(
@@ -105,7 +106,29 @@ class Grid extends StatelessWidget {
                 color: Colors.red,
               ),
               "Top Up"),
-          onTap: () {},
+          onTap: () {
+            // Navigator.pop(context);
+            showDialog(
+              context: context,
+              builder: (BuildContext context){
+                return SimpleDialog(
+                  // backgroundColor: Colors.white54,
+                  title: Center(child: Text("Top Up Using")),
+                  children: <Widget>[
+                    ListTile(
+                      leading: CircleAvatar(backgroundColor: Colors.green,),
+                      title: Text("Mpesa"),
+                      subtitle: Text("Top up wallet from your mpesa"),
+                      onTap: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => MpesaSend()));
+                      },
+                    )
+                  ],
+                  
+                );
+              }
+            );
+          },
         ),
         InkWell(
           child: myTile(
@@ -151,11 +174,11 @@ class Grid extends StatelessWidget {
         ),
       ],
       staggeredTiles: [
+        StaggeredTile.extent(1, 130.0),
         StaggeredTile.extent(1, 100.0),
         StaggeredTile.extent(1, 100.0),
         StaggeredTile.extent(1, 100.0),
-        StaggeredTile.extent(1, 100.0),
-        StaggeredTile.extent(1, 100.0),
+        StaggeredTile.extent(1, 130.0),
         StaggeredTile.extent(1, 100.0),
       ],
     );
