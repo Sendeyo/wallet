@@ -214,7 +214,7 @@ class _RegisterState extends State<Register> {
     });
         try {
           String basicAuth = 'Basic ' + base64Encode(utf8.encode('Kite Holdings001:xXcA1pGeBG'));
-          http.Response r = await http.get("http://$ip/token",headers: <String, String>{'authorization': basicAuth});
+          http.Response r = await http.get("http://$url/token",headers: <String, String>{'authorization': basicAuth});
           print(r.statusCode);
           print("Working");
           if (r.statusCode == 200){
@@ -234,7 +234,7 @@ class _RegisterState extends State<Register> {
             };
 
             final http.Response res = await http.post(
-                "http://$ip/accounts/consumer",
+                "http://$url/accounts/consumer",
                 headers: _headers,
                 body: json.encode(_payload));
             if (res.statusCode == 200) {
@@ -298,7 +298,7 @@ class _RegisterState extends State<Register> {
 
 
         // String basicAuth = 'Basic ' + base64Encode(utf8.encode('Test 9014:2810180875'));
-        // http.Response r = await http.get("http://$ip/token",headers: <String, String>{
+        // http.Response r = await http.get("http://$url/token",headers: <String, String>{
         //   'authorization': basicAuth
         //     });
         // String _token = json.decode(r.body)["data"]["token"].toString();
@@ -316,7 +316,7 @@ class _RegisterState extends State<Register> {
         // };
 
         // final http.Response res = await http.post(
-        //     "http://$ip/accounts/consumer",
+        //     "http://$url/accounts/consumer",
         //     headers: _headers,
         //     body: json.encode(_payload));
         // if (res.statusCode == 200) {

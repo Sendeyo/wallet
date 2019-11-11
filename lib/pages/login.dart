@@ -91,13 +91,13 @@ class _LoginState extends State<Login> {
                               
                             });
                             try {
-                              String basicAuth = 'Basic '+base64Encode(utf8.encode('${accountEmail.text}:${accountPassword.text}'));
-                              http.Response r = await http.get("http://$ip/accounts/login",headers: <String, String>{'authorization': basicAuth});
-                              print(r.statusCode);
-                              print(r.body);
-                              if (r.statusCode == 200){
+                              // String basicAuth = 'Basic '+base64Encode(utf8.encode('${accountEmail.text}:${accountPassword.text}'));
+                              // http.Response r = await http.get("http://$url/accounts/login",headers: <String, String>{'authorization': basicAuth});
+                              // print(r.statusCode);
+                              // print(r.body);
+                              if ("r.statusCode" != 200){
                                 Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => Home()));
-                              } else if(r.statusCode == 401){
+                              } else if("r.statusCode" == 401){
                                 showDialog(
                                   context: context,
                                   builder: (BuildContext context) {
