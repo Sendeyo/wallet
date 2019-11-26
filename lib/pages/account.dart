@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:wallet/colors.dart';
-import 'package:wallet/pages/login.dart';
-import 'package:wallet/widgets/circle.dart';
+import 'package:kitebird/auth/Auth.dart';
+import 'package:kitebird/colors.dart';
+import 'package:kitebird/models/account_model.dart';
+import 'package:kitebird/utils/temp_data.dart';
+import 'package:kitebird/widgets/circle.dart';
+
 
 class Account extends StatefulWidget {
   @override
@@ -9,7 +12,20 @@ class Account extends StatefulWidget {
 }
 
 
+
 class _AccountState extends State<Account> {
+  
+  AccountModel _theAccountModel = theAccountModel;
+
+  @override
+  void initState() {
+    super.initState();
+    AccountLogin _accountLogin = AccountLogin(
+      username: theUsername,
+      password: thePassword
+    );
+    _accountLogin.userLogin();
+    }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,10 +61,10 @@ class _AccountState extends State<Account> {
                     ),
                     FlatButton(
                       onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (BuildContext context) => Login()));
+                        // Navigator.push(
+                        //     context,
+                        //     MaterialPageRoute(
+                        //         builder: (BuildContext context) => Login()));
                       },
                       child: Row(
                         children: <Widget>[
@@ -58,28 +74,7 @@ class _AccountState extends State<Account> {
                         ],
                       ),
                     ),
-                    // Padding(
-                    //   padding: const EdgeInsets.only(right: 0.0),
-                    //   child: IconButton(
-                    //     onPressed: () {
-                    //       Navigator.push(
-                    //           context,
-                    //           MaterialPageRoute(
-                    //               builder: (BuildContext context) => Login()));
-                    //     },
-                    //     icon: Transform.rotate(
-                    //         angle: 3.14159,
-                    //         child: Icon(
-                    //           Icons.exit_to_app,
-                    //           size: 40,
-                    //           color: subColor,
-                    //         )),
-                    //   ),
-                    // ),
-                    // Padding(
-                    //   padding: const EdgeInsets.all(8.0),
-                    //   child: Text("Logout", style: TextStyle(fontSize: 20),),
-                    // )
+                    
                   ],
                 ),
               ),
@@ -98,7 +93,7 @@ class _AccountState extends State<Account> {
                           width: 100,
                           child: Image.network(
                             // "assets/richard.png",
-                            "https://ca.hellomagazine.com/images/stories/0/2018/01/09/000/535/567/featured_5_3.jpg",
+                            "https://media.comicbook.com/2019/05/captain-america-falcon-aikoaiham-1170364-1280x0.jpeg",
                             height: 40,
                             width: 40,
                             fit: BoxFit.cover,
@@ -112,7 +107,7 @@ class _AccountState extends State<Account> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          "Username",
+                          _theAccountModel.username,
                           style: TextStyle(
                             fontSize: 25,
                             color: Colors.white
@@ -131,7 +126,7 @@ class _AccountState extends State<Account> {
                       height: 15,
                     ),
                     Text(
-                      "Email: myemail@email.com",
+                      "Email: ${_theAccountModel.address.email}",
                       style: TextStyle(
                         fontSize: 17,
                       ),
@@ -140,7 +135,7 @@ class _AccountState extends State<Account> {
                       height: 10,
                     ),
                     Text(
-                      "Phone: 0715232942",
+                      "Phone: ${_theAccountModel.address.phoneNo}",
                       style: TextStyle(
                         fontSize: 17,
                       ),
@@ -195,7 +190,7 @@ class _AccountState extends State<Account> {
                   children: <Widget>[
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text("Wallet Number: 12345678900",style: TextStyle(fontSize: 18, color: Colors.white70),),
+                      child: Text("Wallet Number: ${_theAccountModel.wallet[0].walletAccountNo}",style: TextStyle(fontSize: 18, color: Colors.white70),),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -203,7 +198,7 @@ class _AccountState extends State<Account> {
                         children: <Widget>[
                           Text("Wallet Balance: ",style: TextStyle(fontSize: 17, color: Colors.white70),),
                           InkWell(
-                            child: showBalance ? Text("12345.00 ksh",style: TextStyle(fontSize: 20, color: Colors.white),): Text("See Balance",style: TextStyle(fontSize: 20),),
+                            child: showBalance ? Text("${_theAccountModel.wallet[0].balance} ksh",style: TextStyle(fontSize: 20, color: Colors.white),): Text("See Balance",style: TextStyle(fontSize: 20),),
                             onTap: (){
                               showBalance = ! showBalance;
                               setState(() {
@@ -222,6 +217,8 @@ class _AccountState extends State<Account> {
         ],
       ),
     );
+       
+    
   }
 
   bool showBalance = false;

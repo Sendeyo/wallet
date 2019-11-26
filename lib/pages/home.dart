@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:wallet/colors.dart';
-import 'package:wallet/pages/account.dart';
-import 'package:wallet/pages/mpesaSend.dart';
-import 'package:wallet/widgets/circle.dart';
+import 'package:kitebird/colors.dart';
+import 'package:kitebird/pages/account.dart';
+import 'package:kitebird/pages/mpesaSend.dart';
+import 'package:kitebird/pages/walletSend.dart';
+import 'package:kitebird/widgets/circle.dart';
 
 class Home extends StatelessWidget {
   @override
@@ -138,7 +139,9 @@ class Grid extends StatelessWidget {
                 color: Colors.orange,
               ),
               "Send to Wallet"),
-          onTap: () {},
+          onTap: () {
+            Navigator.of(context).push(MaterialPageRoute(builder: (context)=> WalletInputs()));
+          },
         ),
         InkWell(
           child: myTile(

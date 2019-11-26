@@ -1,4 +1,4 @@
-package com.example.wallet
+package com.example.kitebird
 
 import android.os.Bundle
 

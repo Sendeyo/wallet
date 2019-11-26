@@ -1,13 +1,8 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:wallet/colors.dart';
-import 'package:wallet/models/config.dart';
-import 'package:wallet/widgets/circle.dart';
+import 'package:kitebird/auth/Auth.dart';
+import 'package:kitebird/colors.dart';
+import 'package:kitebird/widgets/circle.dart';
 
-import 'package:http/http.dart' as http;
-
-import 'home.dart';
 
 class Register extends StatefulWidget {
   @override
@@ -212,85 +207,98 @@ class _RegisterState extends State<Register> {
     setState(() {
       
     });
-        try {
-          String basicAuth = 'Basic ' + base64Encode(utf8.encode('Kite Holdings001:xXcA1pGeBG'));
-          http.Response r = await http.get("http://$url/token",headers: <String, String>{'authorization': basicAuth});
-          print(r.statusCode);
-          print("Working");
-          if (r.statusCode == 200){
-            print("this is working");
-            String _token = json.decode(r.body)["data"]["token"].toString();
-            Map<String, dynamic> _payload = {
-              "identifier": "123456098",
-              "identifierType": "NationalId",
-              "username": _username.text,
-              "phoneNo": _phoneNo.text,
-              "email": _email.text,
-              "password": _password.text
-            };
-            Map<String, String> _headers = {
-              'content-type': 'application/json',
-              'Authorization': 'Bearer ' + _token
-            };
 
-            final http.Response res = await http.post(
-                "http://$url/accounts/consumer",
-                headers: _headers,
-                body: json.encode(_payload));
-            if (res.statusCode == 200) {
-              print(res.body);
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (BuildContext context) =>
-                          Home()));
-              } else {
+    AccountSignUp _accountSignUp = AccountSignUp(
+      identifier: '123432',
+      identifierType: 'NationalId',
+      username: _username.text,
+      email: _email.text,
+      phoneNo: _phoneNo.text,
+      password: _password.text
+    );
+
+    _accountSignUp.register();
+
+        // try {
+        //   String basicAuth = 'Basic ' + base64Encode(utf8.encode('Kite Holdings001:xXcA1pGeBG'));
+        //   http.Response r = await http.get("http://$url/token",headers: <String, String>{'authorization': basicAuth});
+        //   print(r.statusCode);
+        //   print("Working");
+        //   if (r.statusCode == 200){
+        //     print("this is working");
+        //     String _token = json.decode(r.body)["data"]["token"].toString();
+        //     Map<String, dynamic> _payload = {
+        //       "identifier": "123456098",
+        //       "identifierType": "NationalId",
+        //       "username": _username.text,
+        //       "phoneNo": _phoneNo.text,
+        //       "email": _email.text,
+        //       "password": _password.text
+        //     };
+        //     Map<String, String> _headers = {
+        //       'content-type': 'application/json',
+        //       'Authorization': 'Bearer ' + _token
+        //     };
+
+        //     final http.Response res = await http.post(
+        //         "http://$url/accounts/consumer",
+        //         headers: _headers,
+        //         body: json.encode(_payload));
+        //     if (res.statusCode == 200) {
+        //       print(res.body);
+        //       Navigator.push(
+        //           context,
+        //           MaterialPageRoute(
+        //               builder: (BuildContext context) =>
+        //                   Home()));
+        //       } else {
                 
-                // User cant create account
+        //         // User cant create account
 
-              }
+        //       }
 
-          }else{
-            showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return AlertDialog(
-                  title: Text("Error"),
-                  content: Text("Check your Values"),
-                  actions: <Widget>[
-                    FlatButton(
-                      child: Text("Close"),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                    )
-                  ],
-                );
-              },
-            );
-          }
+        //   }else{
+        //     showDialog(
+        //       context: context,
+        //       builder: (BuildContext context) {
+        //         return AlertDialog(
+        //           title: Text("Error"),
+        //           content: Text("Check your Values"),
+        //           actions: <Widget>[
+        //             FlatButton(
+        //               child: Text("Close"),
+        //               onPressed: () {
+        //                 Navigator.pop(context);
+        //               },
+        //             )
+        //           ],
+        //         );
+        //       },
+        //     );
+        //   }
+
           
-        } catch (e) {
-          //print(e);
-          showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return AlertDialog(
-                  title: Text("Cant reach server"),
-                  content: Text("Check your internet connection"),
-                  actions: <Widget>[
-                    FlatButton(
-                      child: Text("Close"),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                    )
-                  ],
-                );
-              },
-            );
+        // } catch (e) {
+        //   //print(e);
+        //   showDialog(
+        //       context: context,
+        //       builder: (BuildContext context) {
+        //         return AlertDialog(
+        //           title: Text("Cant reach server"),
+        //           content: Text("Check your internet connection"),
+        //           actions: <Widget>[
+        //             FlatButton(
+        //               child: Text("Close"),
+        //               onPressed: () {
+        //                 Navigator.pop(context);
+        //               },
+        //             )
+        //           ],
+        //         );
+        //       },
+        //     );
             
-        }
+        // }
         load = false;
         setState(() {
           

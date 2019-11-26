@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:wallet/pages/login.dart';
+import 'package:kitebird/pages/login.dart';
 
 void main() => runApp(MyApp());
+
 
 class MyApp extends StatelessWidget {
   @override
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
           
           ),
       home: Login(),
-    );
+      );
   }
 }
 

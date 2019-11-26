@@ -2,10 +2,11 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:wallet/colors.dart';
-import 'package:wallet/models/config.dart';
-import 'package:wallet/widgets/circle.dart';
-import 'package:http/http.dart' as http;
+import 'package:kitebird/colors.dart';
+import 'package:kitebird/models/account_model.dart';
+import 'package:kitebird/modules/wallet_transactions.dart';
+import 'package:kitebird/utils/temp_data.dart';
+import 'package:kitebird/widgets/circle.dart';
 
 class MpesaSend extends StatelessWidget {
   @override
@@ -58,11 +59,28 @@ class MpesaSend extends StatelessWidget {
   }
 }
 
-class Inputs extends StatelessWidget {
-  
-  TextEditingController _phoneNumber = TextEditingController() ..text= "254715232942";
-  TextEditingController _depositAmount = TextEditingController();
-  TextEditingController _walletNumber = TextEditingController() ..text = "0010000000005";
+class Inputs extends StatefulWidget {
+
+  @override
+  _InputsState createState() => _InputsState();
+}
+
+class _InputsState extends State<Inputs> {
+  AccountModel _theAccountModel = theAccountModel;
+
+  TextEditingController _phoneNumber;
+
+  TextEditingController _depositAmount;
+
+  TextEditingController _walletNumber;
+
+  @override
+  void initState() {
+    super.initState();
+    _phoneNumber = TextEditingController()..text = _theAccountModel.address.phoneNo;
+    _walletNumber = TextEditingController()..text = _theAccountModel.wallet[0].walletAccountNo;
+    _depositAmount = TextEditingController();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -145,22 +163,18 @@ class Inputs extends StatelessWidget {
 
                         void _sendMoney() async{
                            print("Trying ...");
-                        // String basicAuth = 'Basic '+base64Encode(utf8.encode('Kite Holdings001:xXcA1pGeBG'));
-                        // http.Response r = await http.get("http://$ip/token",headers: <String, String>{'authorization': basicAuth});
-                        // print(r.statusCode);
-                        // print(r.body);
+                        WalletTransacions _walletTransacions = WalletTransacions(
+                          password: theUsername,
+                          username: thePassword,
+                          walletNo: _walletNumber.text,
+                        );
 
-                        final Map<String, dynamic> _payload = {
-                              "walletAccountNo": _walletNumber.text,
-                              "phoneNo": _phoneNumber.text,
-                              "amount": _depositAmount.text,
-                              "callBackUrl": "http://18.189.117.13:2011/test",
-                              "referenceNumber": "001100000001",
-                              "transactionDesc": "transactionDesc"
-                        };
-                        final http.Response response = await http.post("$url/thirdParties/mpesa/depositRequest", headers: {"content-type":"application/json"}, body: json.encode(_payload));
-                        print(response.body);
-                        print("Tried");
+                        _walletTransacions.mpesaWalletDeposit(
+                          amount: double.parse(_depositAmount.text),
+                          phoneNo: _phoneNumber.text
+                        );
+
+
                         }
 
                         if (numbers.contains(_number)){
@@ -172,7 +186,7 @@ class Inputs extends StatelessWidget {
                           return AlertDialog(
                             // backgroundColor: Colors.redAccent,
                             title: Text("WARNING"),
-                            content: Text("This Number is not registered! \n Do you want to Continue?"),
+                            content: Text("Do you want to Continue?"),
                             actions: <Widget>[
                               FlatButton(
                                 child: Text("Cancel"),
@@ -215,6 +229,7 @@ class Inputs extends StatelessWidget {
       ],
     );
   }
+
   void showMessage(){
     print("this is it");
     

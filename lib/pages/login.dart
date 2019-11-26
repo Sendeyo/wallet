@@ -1,14 +1,10 @@
-import 'dart:convert';
-import 'dart:io';
-import 'package:wallet/models/config.dart';
-
 import 'package:flutter/material.dart';
-import 'package:wallet/pages/home.dart';
-import 'package:wallet/pages/register.dart';
-import 'package:wallet/widgets/circle.dart';
-import 'package:wallet/colors.dart';
+import 'package:kitebird/auth/Auth.dart';
+import 'package:kitebird/colors.dart';
+import 'package:kitebird/pages/home.dart';
+import 'package:kitebird/pages/register.dart';
+import 'package:kitebird/widgets/circle.dart';
 
-import 'package:http/http.dart' as http;
 
 class Login extends StatefulWidget {
 
@@ -17,11 +13,12 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  TextEditingController accountEmail = new TextEditingController();
+  TextEditingController accountEmail = new TextEditingController()..text = 'eddie@email.mail';
 
-  TextEditingController accountPassword = new TextEditingController();
+  TextEditingController accountPassword = new TextEditingController()..text = 'password';
 
   bool load = false;
+  
 
   @override
   Widget build(BuildContext context) {
@@ -91,13 +88,16 @@ class _LoginState extends State<Login> {
                               
                             });
                             try {
-                              // String basicAuth = 'Basic '+base64Encode(utf8.encode('${accountEmail.text}:${accountPassword.text}'));
-                              // http.Response r = await http.get("http://$url/accounts/login",headers: <String, String>{'authorization': basicAuth});
-                              // print(r.statusCode);
-                              // print(r.body);
-                              if ("r.statusCode" != 200){
+
+                              AccountLogin _accountLogin = AccountLogin(
+                                username: accountEmail.text,
+                                password: accountPassword.text
+                              );
+                              final Map<String, dynamic> _res = await _accountLogin.userLogin();
+                              
+                              if (_res['status'] == 0){
                                 Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => Home()));
-                              } else if("r.statusCode" == 401){
+                              } else if(_res['status'] == 2){
                                 showDialog(
                                   context: context,
                                   builder: (BuildContext context) {
@@ -180,26 +180,27 @@ class CircleBack extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: <Widget>[
-        Align(
-          alignment: Alignment(-1, -0.9),
-          child: CustomPaint(
-            painter: MyPainter(mainColor, 100),
-          ),
-        ),
+    var mainColor;
+        return Stack(
+          children: <Widget>[
+        //     Align(
+        //       alignment: Alignment(-1, -0.9),
+        //       child: CustomPaint(
+        //         painter: MyPainter(mainColor, 100),
+        //   ),
+        // ),
         Align(
           alignment: Alignment(-0.3, -1.1),
           child: CustomPaint(
             painter: MyPainter(subColor, 100),
           ),
         ),
-        Align(
-          alignment: Alignment(1.2, 0.7),
-          child: CustomPaint(
-            painter: MyPainter(mainColor, 100),
-          ),
-        ),
+        // Align(
+        //   alignment: Alignment(1.2, 0.7),
+        //   child: CustomPaint(
+        //     painter: MyPainter(mainColor, 100),
+        //   ),
+        // ),
         Align(
           alignment: Alignment(0.5, 1.1),
           child: CustomPaint(
