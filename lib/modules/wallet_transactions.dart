@@ -84,5 +84,47 @@ class WalletTransacions {
 
   }
 
+  void cardWalletDeposit({
+    String cardNo, 
+    String cvv, 
+    String expiryMonth, 
+    String expiryYear, 
+    String amount, 
+    String email,
+    })async{
+      final Map<String, String> _payload = {
+        "cardNo": cardNo,
+        "cvv": cvv,
+        "expiryMonth": expiryMonth,
+        "expiryYear": expiryYear,
+        "currency": "KES",
+        "country": "KE",
+        "amount": amount,
+        "email": email,
+        "reference": walletNo,
+        "callbackUrl": "http://18.189.117.13:2011/test"
+      };
+
+      final AccountLogin _accountLogin = AccountLogin(username: username, password: password);
+      Map<String, dynamic> _loginBody = await _accountLogin.userLogin();
+
+      Map<String, dynamic> _message = {
+        'status': 11
+      };
+
+
+      final String _url = cardToWalletUrl;
+
+      final String _accessToken = _loginBody['body'].toString();
+
+      final Map<String, String> headers = {
+          'content-type': 'application/json',
+          'Authorization': 'Bearer $_accessToken'
+      };
+
+      _message = await processHttpRequest( http.post(_url, headers: headers, body: json.encode(_payload)) );
+
+      }
+
 
 }

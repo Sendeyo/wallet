@@ -16,41 +16,43 @@ class MpesaSend extends StatelessWidget {
       body: Stack(
         children: <Widget>[
           // Background(),
-          Column(
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(top: 30),
-                child: Row(
-                  children: <Widget>[
-                    IconButton(
-                        icon: Icon(
-                          Icons.arrow_back_ios,
-                          size: 30,
-                          color: Colors.white,
+          SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(top: 30),
+                  child: Row(
+                    children: <Widget>[
+                      IconButton(
+                          icon: Icon(
+                            Icons.arrow_back_ios,
+                            size: 30,
+                            color: Colors.white,
+                          ),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
                         ),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                      ),
-                      Expanded(
-                        child: Center(child: Text(""),),
-                      )
-                  ],
-                ),
-              ),
-
-              ClipPath(
-                child: Container(
-                  // height: MediaQuery.of(context).size.height * .5,
-                  width: MediaQuery.of(context).size.width * .8,
-                  color: lightColor,
-                  child: Padding(
-                    padding: const EdgeInsets.all(20),
-                    child: new Inputs(),
+                        Expanded(
+                          child: Center(child: Text(""),),
+                        )
+                    ],
                   ),
                 ),
-              )
-            ],
+
+                ClipPath(
+                  child: Container(
+                    // height: MediaQuery.of(context).size.height * .5,
+                    width: MediaQuery.of(context).size.width * .8,
+                    color: lightColor,
+                    child: Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: new Inputs(),
+                    ),
+                  ),
+                )
+              ],
+            ),
           )
         ],
       ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:kitebird/colors.dart';
 import 'package:kitebird/pages/account.dart';
+import 'package:kitebird/pages/card_send.dart';
 import 'package:kitebird/pages/mpesaSend.dart';
 import 'package:kitebird/pages/walletSend.dart';
 import 'package:kitebird/widgets/circle.dart';
@@ -123,7 +124,15 @@ class Grid extends StatelessWidget {
                       onTap: (){
                         Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => MpesaSend()));
                       },
-                    )
+                    ),
+                    ListTile(
+                      leading: CircleAvatar(backgroundColor: Colors.green,),
+                      title: Text("Card"),
+                      subtitle: Text("Top up wallet from your card"),
+                      onTap: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => CardSend()));
+                      },
+                    ),
                   ],
                   
                 );
