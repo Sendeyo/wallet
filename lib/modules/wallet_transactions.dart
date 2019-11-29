@@ -65,8 +65,7 @@ class WalletTransacions {
     /// Login to get the token
     final AccountLogin _accountLogin = AccountLogin(username: username, password: password);
     Map<String, dynamic> _loginBody = await _accountLogin.userLogin();
-
-    Map<String, dynamic> _message = {
+     Map<String, dynamic> _message = {
       'status': 11
     };
 
@@ -105,9 +104,11 @@ class WalletTransacions {
         "callbackUrl": "http://18.189.117.13:2011/test"
       };
 
-      final AccountLogin _accountLogin = AccountLogin(username: username, password: password);
-      Map<String, dynamic> _loginBody = await _accountLogin.userLogin();
-
+      final AccountLogin _accountLogin = AccountLogin(username: cooprateKey, password: cooprateSecret);
+      Map<String, dynamic> _loginBody = await _accountLogin.cooprateLogin();
+      print(_loginBody);
+         print(username);
+    print(password);
       Map<String, dynamic> _message = {
         'status': 11
       };
@@ -123,7 +124,7 @@ class WalletTransacions {
       };
 
       _message = await processHttpRequest( http.post(_url, headers: headers, body: json.encode(_payload)) );
-
+      print(_message);
       }
 
 

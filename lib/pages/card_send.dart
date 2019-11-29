@@ -28,7 +28,7 @@ class _CardSendState extends State<CardSend> {
     super.initState();
     _walletNo = TextEditingController()..text =  _theAccountModel.wallet[0].walletAccountNo;
     // _walletNumber = TextEditingController()..text = _theAccountModel.wallet[0].walletAccountNo;
-    _cardNo = TextEditingController();
+    _cardNo = TextEditingController()..text = "4242424242424242";
     _cvv = TextEditingController();
     _expiryMonth = TextEditingController();
     _expiryYear = TextEditingController();
@@ -63,21 +63,21 @@ class _CardSendState extends State<CardSend> {
                     controller: _cardNo,
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
-                      hintText: "Ammount to Deposit"
+                      hintText: "Card Number"
                     ),
                   ),
                 ),
               ),
               SizedBox(width: 8,),
               SizedBox(
-                width: 20,
+                width: 70,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: TextField(
                     controller: _cvv,
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
-                      hintText: "Wallet Number"
+                      hintText: "CVV"
                     ),
                   ),
                 ),
@@ -88,27 +88,27 @@ class _CardSendState extends State<CardSend> {
           Row(
             children: <Widget>[
               SizedBox(
-                width: 20,
+                width: 70,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: TextField(
                     controller: _expiryMonth,
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
-                      hintText: "Wallet Number"
+                      hintText: "Expiry Month"
                     ),
                   ),
                 ),
               ),
               SizedBox(
-                width: 20,
+                width: 70,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: TextField(
                     controller: _expiryYear,
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
-                      hintText: "Wallet Number"
+                      hintText: "Expiry Year"
                     ),
                   ),
                 ),
@@ -123,7 +123,7 @@ class _CardSendState extends State<CardSend> {
               controller: _amount,
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
-                hintText: "Wallet Number"
+                hintText: "Amount"
               ),
             ),
           ),
@@ -131,9 +131,9 @@ class _CardSendState extends State<CardSend> {
             padding: const EdgeInsets.all(8.0),
             child: TextField(
               controller: _email,
-              keyboardType: TextInputType.number,
+              keyboardType: TextInputType.emailAddress,
               decoration: InputDecoration(
-                hintText: "Wallet Number"
+                hintText: "Email address"
               ),
             ),
           ),
