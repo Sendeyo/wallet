@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kitebird/models/account_model.dart';
 import 'package:kitebird/modules/wallet_transactions.dart';
 import 'package:kitebird/utils/temp_data.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class CardSend extends StatefulWidget {
 
@@ -11,6 +12,8 @@ class CardSend extends StatefulWidget {
 
 class _CardSendState extends State<CardSend> {
   AccountModel _theAccountModel = theAccountModel;
+
+  bool _loading = false;
 
   TextEditingController _walletNo;
 
@@ -29,9 +32,9 @@ class _CardSendState extends State<CardSend> {
     _walletNo = TextEditingController()..text =  _theAccountModel.wallet[0].walletAccountNo;
     // _walletNumber = TextEditingController()..text = _theAccountModel.wallet[0].walletAccountNo;
     _cardNo = TextEditingController()..text = "4242424242424242";
-    _cvv = TextEditingController();
-    _expiryMonth = TextEditingController();
-    _expiryYear = TextEditingController();
+    _cvv = TextEditingController()..text = '812';
+    _expiryMonth = TextEditingController()..text = '01';
+    _expiryYear = TextEditingController()..text = '21';
     _amount = TextEditingController();
     _email = TextEditingController();
   }
@@ -174,6 +177,20 @@ class _CardSendState extends State<CardSend> {
                         walletNo: _walletNo.text,
                       );
 
+                      setState(() {
+                        _loading = true;
+                      });
+
+
+                      _loading ? 
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context){
+                          return AlertDialog(
+                            title: Text("Transacting..."),
+                            content: CircularProgressIndicator(backgroundColor: Colors.white,),
+                          );
+                        }) : null;
                       _walletTransacions.cardWalletDeposit(
                         cardNo: _cardNo.text,
                         cvv: _cvv.text,
@@ -181,7 +198,17 @@ class _CardSendState extends State<CardSend> {
                         expiryYear: _expiryYear.text,
                         amount: _amount.text,
                         email: _email.text,
-                      );
+                      ).then((_url)async{
+                        Navigator.of(context).pop();
+                        setState(() {
+                          _loading = false;
+                        });
+                        try{
+                          await launch(_url);
+                        } catch (e){
+                          print(e);
+                        }
+                      });
 
 
                       } : null,

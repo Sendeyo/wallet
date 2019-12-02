@@ -26,6 +26,7 @@ dependencies:
   http: ^0.12.0+2
   provider:
   flutter_staggered_grid_view:
+  url_launcher: ^5.2.7
 
 dev_dependencies:
   flutter_test:

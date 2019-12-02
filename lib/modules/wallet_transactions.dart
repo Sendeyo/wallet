@@ -83,7 +83,7 @@ class WalletTransacions {
 
   }
 
-  void cardWalletDeposit({
+  Future<String> cardWalletDeposit({
     String cardNo, 
     String cvv, 
     String expiryMonth, 
@@ -106,9 +106,7 @@ class WalletTransacions {
 
       final AccountLogin _accountLogin = AccountLogin(username: cooprateKey, password: cooprateSecret);
       Map<String, dynamic> _loginBody = await _accountLogin.cooprateLogin();
-      print(_loginBody);
-         print(username);
-    print(password);
+
       Map<String, dynamic> _message = {
         'status': 11
       };
@@ -124,7 +122,7 @@ class WalletTransacions {
       };
 
       _message = await processHttpRequest( http.post(_url, headers: headers, body: json.encode(_payload)) );
-      print(_message);
+      return _message['body']['data']['authurl'].toString();
       }
 
 
